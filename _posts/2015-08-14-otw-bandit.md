@@ -568,3 +568,33 @@ cluFn7wTiGryunymYOu4RcffSxQluehd
 read:errno=0
 ```
 
+# Level 16 > Level 17
+
+> The password for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.
+
+`nmap` can tell us what ports are open in the range (default SYN scan) and test for SSL\TLS (`ssl-enum-ciphers` script) in one swoop.
+
+```
+bandit16@melinda:~$ nmap --script=ssl-enum-ciphers -p 31000-32000 --reason localhost
+
+Starting Nmap 6.40 ( http://nmap.org ) at 2015-08-15 21:41 UTC
+Nmap scan report for localhost (127.0.0.1)
+Host is up, received syn-ack (0.00080s latency).
+Not shown: 996 closed ports
+Reason: 996 conn-refused
+PORT      STATE SERVICE REASON
+31046/tcp open  unknown syn-ack
+31518/tcp open  unknown syn-ack
+31691/tcp open  unknown syn-ack
+31790/tcp open  unknown syn-ack
+31960/tcp open  unknown syn-ack
+
+Nmap done: 1 IP address (1 host up) scanned in 0.12 seconds
+
+```
+
+As it turns out, the script doesn't like to execute on ports which are not commonly used with SSL\TLS.  There is a fairly recent topic on this on their github [here](https://github.com/nmap/nmap/issues/168).
+
+
+
+
