@@ -1029,7 +1029,7 @@ more ~/text.txt
 exit 0
 ```
 
-Apparently when bandit26 logs in instead of getting a file in bandit26's home directory is `more`'d out.  The 'fairly easy' bit in the level description is a reference to the fact that we are given an ssh key.  Let's try the login.
+Apparently when bandit26 logs in, instead of getting a a shell a file in bandit26's home directory is `more`'d out.  The 'fairly easy' bit in the level description is a reference to the fact that we are given an ssh key.  Let's try the login.
 
 ```
 bandit25@melinda:~$ ls
@@ -1065,15 +1065,15 @@ During this time if we press the `v` key, `more` will open the file in a text ed
 
 Once in the editor, we can open another file - namely the one which contains bandit26's password!  The trick here is to make our window so small that the login banner exceeds the height of the terminal and `more` waits for input.
 
-![long.txt](/assets/images/otw-bandit/bandit25-03.png)
+![waiting](/assets/images/otw-bandit/bandit25-03.png)
 
 Open the password file from within `vim`.
 
-![long.txt](/assets/images/otw-bandit/bandit25-04.png)
+![open file](/assets/images/otw-bandit/bandit25-04.png)
 
 Boom!
 
-![long.txt](/assets/images/otw-bandit/bandit25-05.png)
+![password](/assets/images/otw-bandit/bandit25-05.png)
 
 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
 
