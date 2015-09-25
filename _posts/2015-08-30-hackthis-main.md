@@ -21,7 +21,7 @@ A nice warm-up series to get a feel for the site. Should be completed in under a
 
 In the head...
 
-```html
+```
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 <!-- username: in, password: out -->
 <script src="https://d3t63m1rxnixd2.cloudfront.net/files/js/modernizr-2.6.2.min.js"></script>
@@ -37,7 +37,7 @@ In the head...
 
 The old 'same color as the background' trick.
 
-```html
+```
 <label for="user">Username:</label> <span style="color: #000000">resu</span>
 <input type="Text" name="user" id="user" autocomplete="off"><br>
 <label for="user">Password:</label> <span style="color: #000000">ssap</span>
@@ -55,7 +55,7 @@ Can be seen highlighted.
 
 Yea I'd say that's a bad idea.
 
-```html
+```
 <script type='text/javascript'> $(function(){ $('.level-form').submit(function(e){ if(document.getElementById('user').value == 'heaven' && document.getElementById('pass').value == 'hell') { } else { e.preventDefault(); alert('Incorrect login') } })})</script>
 ```
 
@@ -65,7 +65,7 @@ Yea I'd say that's a bad idea.
 >
 > Sometimes these fields can contain very important information.
 
-```html
+```
 <label for="user">Username:</label>
 <input type="Text" name="user" id="user" autocomplete="off"><br>
 <label for="user">Password:</label>
@@ -76,7 +76,7 @@ Yea I'd say that's a bad idea.
 
 Visit https://www.hackthis.co.uk/levels/extras/ssap.xml
 
-```xml
+```
 <user>
     <name>Admin</name>
     <username>999</username>
@@ -100,7 +100,7 @@ Aw.
 
 D'oh.
 
-```html
+```
 <script language="JavaScript" type="text/javascript">
     var pass;
     pass=prompt("Password","");
@@ -171,7 +171,7 @@ Yup.
 
 In the source.
 
-```html
+```
 <label for="user">Username:</label>
 <input type="Text" name="user" id="user" autocomplete="off"><br>
 <label for="user">Password:</label>
@@ -223,7 +223,7 @@ Yup.
 
 > Encrypted passwords can be quite difficult to decode, but when you use a common method there is usually a way to get around it. Especially when the encrypted information are simple common words.
 
-```html
+```
 <label for="user">Username:</label>
 <input type="Text" name="user" id="user" autocomplete="off"><br>
 <label for="user">Password:</label>

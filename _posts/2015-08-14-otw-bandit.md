@@ -387,7 +387,7 @@ The password is 8ZjyCRiBWFYkneahHwxCv3wb2a1ORpYL
 
 I'm rusty on bash scripts so this might not be stylistically very good, but it does the job. All of the above can be automated with a recursive script. The random file name generation is a cool trick I adapted from StackOverflow.
 
-```sh
+```
 #~/bin/bash
 
 R=$(cat /dev/urandom | tr -cd 'a-zA-Z0-9' | head -c 24)
@@ -938,7 +938,7 @@ Since these are executed by bandit24, the most obvious tactic is to drop a scrip
 
 The script:
 
-```sh
+```
 cat /etc/bandit_pass/bandit24 > /tmp/588e5fd1b/bandit24
 ```
 
@@ -969,7 +969,7 @@ UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
 
 For this we'll use the following script.
 
-```sh
+```
 #!/bin/bash
 
 for i in {0000..9999}
