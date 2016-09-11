@@ -1048,11 +1048,11 @@ The fact that the script uses `more` is critial here.  Let's examine the behavio
 
 When a file is shorter than the terminal, it is displayed and `more` exits.
 
-![short.txt](/assets/images/otw-bandit/bandit25-01.png)
+![short.txt](/img/otw-bandit/bandit25-01.png)
 
 When a file is longer than the terminal, the portion which fits is displayed and `more` waits for user input to move through the file.
 
-![long.txt](/assets/images/otw-bandit/bandit25-02.png)
+![long.txt](/img/otw-bandit/bandit25-02.png)
 
 During this time if we press the `v` key, `more` will open the file in a text editor.  From the manpage:
 
@@ -1065,15 +1065,15 @@ During this time if we press the `v` key, `more` will open the file in a text ed
 
 Once in the editor, we can open another file - namely the one which contains bandit26's password!  The trick here is to make our window so small that the login banner exceeds the height of the terminal and `more` waits for input.
 
-![waiting](/assets/images/otw-bandit/bandit25-03.png)
+![waiting](/img/otw-bandit/bandit25-03.png)
 
 Open the password file from within `vim`.
 
-![open file](/assets/images/otw-bandit/bandit25-04.png)
+![open file](/img/otw-bandit/bandit25-04.png)
 
 Boom!
 
-![password](/assets/images/otw-bandit/bandit25-05.png)
+![password](/img/otw-bandit/bandit25-05.png)
 
 5czgV9L3Xx8JPOyRbXh6lQbmIOWvPT6Z
 

@@ -8,11 +8,11 @@ date:   2016-05-09
 
 # Intermediate Level 6
 
-![intermediate06-01](/assets/images/hackthis-intermediate/intermediate06-01.png)
+![intermediate06-01](/img/hackthis-intermediate/intermediate06-01.png)
 
 No SQLi, check.  Hint?
 
-![intermediate06-02](/assets/images/hackthis-intermediate/intermediate06-02.png)
+![intermediate06-02](/img/hackthis-intermediate/intermediate06-02.png)
 
 The Pastebin contains an XML schema...
 
@@ -112,9 +112,9 @@ Which, following the same steps to add parenthesis according to AND/OR operator 
 
 Looks good. Construct a POST request with this username and password and send it along...
 
-![intermediate06-03](/assets/images/hackthis-intermediate/intermediate06-03.png)
+![intermediate06-03](/img/hackthis-intermediate/intermediate06-03.png)
 
 BOOM, success. Again, this works because the first clause passes on `realname` being Sandra Murphy, and the second clause passes on `a=a`.
 
-![intermediate06-04](/assets/images/hackthis-intermediate/intermediate06-04.png)
+![intermediate06-04](/img/hackthis-intermediate/intermediate06-04.png)
 

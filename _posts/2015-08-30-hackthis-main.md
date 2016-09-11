@@ -10,7 +10,7 @@ A nice warm-up series to get a feel for the site. Should be completed in under a
 
 # Main Level 1
 
-![main01-01](/assets/images/hackthis-main/main01-01.png)
+![main01-01](/img/hackthis-main/main01-01.png)
 
 > Having trouble? Need a little help? Well this is the first level so that is to be expected. The first stop is always to view the source of a page.
 >
@@ -29,7 +29,7 @@ In the head...
 
 # Main Level 2
 
-![main02-01](/assets/images/hackthis-main/main02-01.png)
+![main02-01](/img/hackthis-main/main02-01.png)
 
 > Just expanding on the idea of Level 1. The best place to start is always the source code.
 >
@@ -47,7 +47,7 @@ The old 'same color as the background' trick.
 
 Can be seen highlighted.
 
-![main02-02](/assets/images/hackthis-main/main02-02.png)
+![main02-02](/img/hackthis-main/main02-02.png)
 
 # Main Level 3
 
@@ -92,11 +92,11 @@ Visit https://www.hackthis.co.uk/levels/extras/ssap.xml
 
 A popup!
 
-![main05-01](/assets/images/hackthis-main/main05-01.png)
+![main05-01](/img/hackthis-main/main05-01.png)
 
 Aw.
 
-![main05-02](/assets/images/hackthis-main/main05-02.png)
+![main05-02](/img/hackthis-main/main05-02.png)
 
 D'oh.
 
@@ -112,21 +112,21 @@ D'oh.
 
 # Main Level 6
 
-![main06-01](/assets/images/hackthis-main/main06-01.png)
+![main06-01](/img/hackthis-main/main06-01.png)
 
 > This page is coded to only let in one user (Ronald). But there is no Ronald?! You will need to find a way to add him to the list.
 
 Dammit, Ronald!
 
-![main06-02](/assets/images/hackthis-main/main06-02.png)
+![main06-02](/img/hackthis-main/main06-02.png)
 
 In a simple case like this there's no need to fire up a local proxy, the necessary changes can be made using the [page inspector](https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector) that ships with Firefox.
 
-![main06-03](/assets/images/hackthis-main/main06-03.png)
+![main06-03](/img/hackthis-main/main06-03.png)
 
 Cool.
 
-![main06-04](/assets/images/hackthis-main/main06-04.png)
+![main06-04](/img/hackthis-main/main06-04.png)
 
 # Main Level 7
 
@@ -161,7 +161,7 @@ u3qh458
 
 Yup.
 
-![main07-01](/assets/images/hackthis-main/main07-01.png)
+![main07-01](/img/hackthis-main/main07-01.png)
 
 # Main Level 8
 
@@ -202,7 +202,7 @@ Well then, boob feed. Am I being fed the boobs or are we talking about some kind
 
 Clicking 'Request details' brings you to https://www.hackthis.co.uk/levels/main/9?forgot
 
-![main09-01](/assets/images/hackthis-main/main09-01.png)
+![main09-01](/img/hackthis-main/main09-01.png)
 
 ```
 <label for="email1">Email:</label>
@@ -213,11 +213,11 @@ Clicking 'Request details' brings you to https://www.hackthis.co.uk/levels/main/
 
 Likely the story here is that an email will be sent to the address specified by user input and a copy sent to admin@hackthis.co.uk. Let's have them both sent to us instead.  The page inspector again works well for this.
 
-![main09-02](/assets/images/hackthis-main/main09-02.png)
+![main09-02](/img/hackthis-main/main09-02.png)
 
 Yup.
 
-![main09-03](/assets/images/hackthis-main/main09-03.png)
+![main09-03](/img/hackthis-main/main09-03.png)
 
 # Main Level 10
 
@@ -240,7 +240,7 @@ I wasted a bunch of time trying to find the text file here before adding the 'ex
 
 One of the most effective cracking techniques for reasonably weak passwords in the absense of salt is Google. As expected, it delivers.
 
-![main10-01](/assets/images/hackthis-main/main10-01.png)
+![main10-01](/img/hackthis-main/main10-01.png)
 
 So,
 

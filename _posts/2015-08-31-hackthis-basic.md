@@ -19,23 +19,23 @@ b1.txt: PC bitmap, Windows 3.x format, 213 x 108 x 24
 
 Ah, makes sense. Rename the file to b1.bmp (unecessary but then we can open it easily in the desktop environment) and check it out.
 
-![basic01-01](/assets/images/hackthis-basic/basic01-01.png)
+![basic01-01](/img/hackthis-basic/basic01-01.png)
 
 # Basic+ Level 2
 
-![basic02-01](/assets/images/hackthis-basic/basic02-01.png)
+![basic02-01](/img/hackthis-basic/basic02-01.png)
 
 There are ways to change the user agent in the browser, but I'll use Burp Suite. I prefer to use repeater for this rather than the proxy with intercept since you can take your time crafting your request and don't have to be bothered with anything else that might be pasing through the proxy at the time.
 
-![basic02-02](/assets/images/hackthis-basic/basic02-02.png)
+![basic02-02](/img/hackthis-basic/basic02-02.png)
 
 # Basic+ Level 3
 
-![basic03-01](/assets/images/hackthis-basic/basic03-01.png)
+![basic03-01](/img/hackthis-basic/basic03-01.png)
 
 At this point I become slightly annoyed that I have to switch over to Win10 (ooh shiny, new) because of the flash content... 
 
-![basic03-02](/assets/images/hackthis-basic/basic03-02.png)
+![basic03-02](/img/hackthis-basic/basic03-02.png)
 
 The request is what we'd imagine (and probably should have just guessed). Load it into repeater, change the score, and send it along.
 
@@ -69,7 +69,7 @@ hackthis@sake:~$ strings b4.jpg | less
 
 The same could have been done by viewing the metadata in image viewer.
 
-![basic04-01](/assets/images/hackthis-basic/basic04-01.png)
+![basic04-01](/img/hackthis-basic/basic04-01.png)
 
 We see that the image is attributed to 'james' and that he loves chocolate.  After some mucking around (e.g. "I like chocolate" as the password), we find the creds - james:chocolate.
 
@@ -109,7 +109,7 @@ The creds are admin:safe.
 
 # Basic+ Level 6
 
-![basic06-01](/assets/images/hackthis-basic/basic06-01.png)
+![basic06-01](/img/hackthis-basic/basic06-01.png)
 
 The IP can be found easily in DNS but beware using 'www' or not! I lost a little bit of time to that.
 
