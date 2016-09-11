@@ -1,11 +1,39 @@
-<div class="disclaimer">
-  {% if site.data.theme.show_disclaimer %}
-  <p>
-    Suck it, Trebek.
-  </p>
-  {% endif %}
+<footer class="site-footer">
 
-  <p>
-    © {{ site.data.theme.name }}, 2016 &mdash; built with <a href="http://jekyllrb.com/">Jekyll</a> with help from <a href="https://github.com/swanson/lagom">Lagom</a>
-  </p>
-</div>
+  <div class="wrapper">
+
+    <h2 class="footer-heading">{{ site.title | escape }}</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="social-media-list">
+          {% if site.linkedin_username %}
+          <li>
+            {% include icon-linkedin.html username=site.linkedin_username %}
+          </li>
+          {% endif %}
+          {% if site.github_username %}
+          <li>
+            {% include icon-github.html username=site.github_username %}
+          </li>
+          {% endif %}
+          {% if site.twitter_username %}
+          <li>
+            {% include icon-twitter.html username=site.twitter_username %}
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+	<!-- Suck it, Trebek. -->
+      </div>
+
+      <div class="footer-col footer-col-3">
+	<p style="text-align: right;">{{ site.footer_right | escape }}</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>

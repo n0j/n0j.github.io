@@ -1,8 +1,11 @@
-# General Jekyll Config
-#highlighter: pygments
 title: tibaal.github.io
-url: https://tibaal.github.io/
-lsi: false
-exclude: [LICENSE, CNAME, README.md, .gitignore, Gemfile, Gemfile.lock]
+baseurl: ""
+url: "http://localhost:4000"
+footer_right: "© Michael McCambridge, 2016"
 
-markdown: redcarpet
+author: "Mike McCambridge"
+github_username: "tibaal89"
+twitter_username: "tibaal89"
+linkedin_username: "michaelmccambridge"
+
+markdown: kramdown
