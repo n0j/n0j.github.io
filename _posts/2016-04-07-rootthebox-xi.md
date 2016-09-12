@@ -20,7 +20,7 @@ This year one Root the Box exercise was The Button, easily the most fun challeng
 
 My button script in action (click for YouTube).
 
-[![the button](http://img.youtube.com/vi/0FATaLVCNWA/0.jpg)](http://www.youtube.com/watch?v=0FATaLVCNWA "Root the Box XI, CactusCon 2016 - The Button")
+[![the button](https://img.youtube.com/vi/0FATaLVCNWA/0.jpg)](https://www.youtube.com/watch?v=0FATaLVCNWA "Root the Box XI, CactusCon 2016 - The Button")
 
 Unfortunately at some point I threw away the virtual machine I made for this Root the Box and that work was lost along with my screencaps of the scoreboard, etc.  We, Savage Submarine, came in 2nd this year behind team bearwolf (congrats!).
 
