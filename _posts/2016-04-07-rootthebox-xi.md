@@ -14,7 +14,7 @@ CactusCon is a great annual security conference in the Phoenix area.  2016 is my
 
 The Button.
 
-This year one Root the Box exercises was The Button, easily the most fun challenge I've yet seen.  It's a CAPTCHA, there's a big red button, and a scoreboard that updates in real time via web sockets - that's it.  Fill in the CAPTCHA, hit the button, and your score starts to change.  Hit the button again and things change again - whether for the better or worse... that depends. Eventually you realize the CAPTCHA can be defeated programmatically and an intensely fun duel between scripts written by different teams ensues.  An interesting meta-game follows.  It was awesome.
+This year one Root the Box exercise was The Button, easily the most fun challenge I've yet seen.  It's a CAPTCHA, a countdown timer, there's a big red button, and a scoreboard that updates in real time via web sockets - that's it.  Fill in the CAPTCHA, hit the button, and your score starts to change.  Hit the button again and things change again - whether for the better or worse... that depends. Eventually you realize the CAPTCHA can be defeated programmatically and an intensely fun duel between scripts written by different teams ensues.  An interesting meta-game follows.  It was awesome.
 
 ![the_button](/img/rootthebox-xi/IMG_2122.JPG)
 
