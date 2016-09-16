@@ -1,11 +1,11 @@
-title: "tibaal.github.io"
+title: "n0j.github.io"
 baseurl: ""
-url: "https://tibaal.github.io"
+url: "https://n0j.github.io"
 footer_right: "© Michael McCambridge, 2016"
 
 author: "Mike McCambridge"
-github_username: "tibaal"
-twitter_username: "tibaal89"
+github_username: "n0j"
+twitter_username: "realn0j"
 linkedin_username: "michaelmccambridge"
 
 markdown: kramdown
