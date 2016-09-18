@@ -9,7 +9,9 @@ twitter_username: "realn0j"
 linkedin_username: "michaelmccambridge"
 
 google_analytics: UA-68102464-1
-disqus:
-    shortname: "https-n0j-github-io.disqus"
+comments:
+    provider: "disqus"
+    disqus:
+        shortname: "https-n0j-github-io.disqus"
 
 markdown: kramdown
