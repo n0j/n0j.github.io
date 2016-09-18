@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title:  "OverTheWire Wargames :: Bandit :: Levels 0-26"
 date:   2015-08-14
 ---
