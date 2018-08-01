@@ -28,7 +28,7 @@ While running `dirb` a banner appeared in the browser, congratulating me on solv
 
 # Scoreboard
 
-Here I have to admit to a small bit of cheating. I have not worked on Juice Shop before but I have seen it and know there's a hidden scoreboard. You can find it by looking at the source of the main page. This is an act I definitely would have taken anyway, so we'll forgive the cheating. ;)
+Here I have to admit to a small bit of cheating. I have not worked on Juice Shop before but I have seen it and know there's a hidden scoreboard. You can find it by looking at the source of the main page. This is an act I definitely would have taken anyway, so we'll forgive the foreknowledge. ;)
 
 In the source of the menu bar, some items are present which are not rendered in the browser. The 'complain' button, for instance, appears to check whether you're logged in. 
 
