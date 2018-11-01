@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "RCE Cornucopia - Walk-through"
+title:  "RCE Cornucopia - Walkthrough"
 date:   2018-10-31
 ---
 
