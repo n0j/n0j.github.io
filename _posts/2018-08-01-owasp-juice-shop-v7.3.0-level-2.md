@@ -8,7 +8,7 @@ date:   2018-08-01
 
 ![level 2](/img/owasp-juice-shop-v7.3.0/juice016.png)
 
-# Basket Access
+## Basket Access
 
 > Access someone else's basket.
 
@@ -23,7 +23,7 @@ Intercept and modify the request or modify and replay the request (with headers,
 
 ![basket](/img/owasp-juice-shop-v7.3.0/juice017.png)
 
-# Christmas Special
+## Christmas Special
 
 > Order the Christmas special offer of 2014.
 
@@ -90,7 +90,7 @@ From here the basket appears to function normally and an invoice is generated af
 
 ![christmas](/img/owasp-juice-shop-v7.3.0/juice022.png)
 
-# Deprecated Interface
+## Deprecated Interface
 
 > Use a deprecated B2B interface that was not properly shut down.
 
@@ -112,7 +112,7 @@ The upload succeeds and triggers challenge completion.
 
 ![b2b](/img/owasp-juice-shop-v7.3.0/juice027.png)
 
-# Five-Star Feedback
+## Five-Star Feedback
 
 > Get rid of all 5-star customer feedback.
 
@@ -122,7 +122,7 @@ Not much going on here. Go to the admin page we found in level 1 at `/#/administ
 
 ![review](/img/owasp-juice-shop-v7.3.0/juice024.png)
 
-# Login Admin
+## Login Admin
 
 > Log in with the administrator's user account.
 
@@ -144,7 +144,7 @@ There's not much we can do with the password field being hashed. Whatever value 
 
 ![admin](/img/owasp-juice-shop-v7.3.0/juice030.png)
 
-# Login MC SafeSearch
+## Login MC SafeSearch
 
 > Log in with MC SafeSearch's original user credentials without applying SQL Injection or any other bypass.
 
@@ -167,7 +167,7 @@ POST /rest/user/login HTTP/1.1
 
 ![mc](/img/owasp-juice-shop-v7.3.0/juice032.png)
 
-# Password Strength
+## Password Strength
 
 > Log in with the administrator's user credentials without previously changing them or applying SQL Injection.
 
@@ -213,7 +213,7 @@ root@kali /u/s/wordlists# grep -n admin123 rockyou.txt
 10357629:admin123*
 ```
 
-# Security Policy
+## Security Policy
 
 > Behave like any "white-hat" should.
 
@@ -223,7 +223,7 @@ Access the site's security.txt file. Looking at [securitytxt.org](https://securi
 
 ![security.txt](/img/owasp-juice-shop-v7.3.0/juice034.png)
 
-# Weird Crypto
+## Weird Crypto
 
 > Inform the shop about an algorithm or library it should definitely not use the way it does.
 

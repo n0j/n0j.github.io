@@ -6,7 +6,7 @@ date:   2015-08-31
 
 [HackThis!! Basic+](https://www.hackthis.co.uk/levels/Basic)
 
-# Basic+ Level 1
+## Basic+ Level 1
 
 > Extract the login details from this file: b1.txt
 
@@ -21,7 +21,7 @@ Ah, makes sense. Rename the file to b1.bmp (unecessary but then we can open it e
 
 ![basic01-01](/img/hackthis-basic/basic01-01.png)
 
-# Basic+ Level 2
+## Basic+ Level 2
 
 ![basic02-01](/img/hackthis-basic/basic02-01.png)
 
@@ -29,7 +29,7 @@ There are ways to change the user agent in the browser, but I'll use Burp Suite.
 
 ![basic02-02](/img/hackthis-basic/basic02-02.png)
 
-# Basic+ Level 3
+## Basic+ Level 3
 
 ![basic03-01](/img/hackthis-basic/basic03-01.png)
 
@@ -54,7 +54,7 @@ Content-Length: 12
 score=109384
 ```
 
-# Basic+ Level 4
+## Basic+ Level 4
 
 > Look at my awesome picture: b4.jpg
 
@@ -73,7 +73,7 @@ The same could have been done by viewing the metadata in image viewer.
 
 We see that the image is attributed to 'james' and that he loves chocolate.  After some mucking around (e.g. "I like chocolate" as the password), we find the creds - james:chocolate.
 
-# Basic+ Level 5
+## Basic+ Level 5
 
 > Look another picture: b5.jpg
 
@@ -107,7 +107,7 @@ hackthis@sake:~$ hexdump -C b5.jpg
 
 The creds are admin:safe.
 
-# Basic+ Level 6
+## Basic+ Level 6
 
 ![basic06-01](/img/hackthis-basic/basic06-01.png)
 
@@ -160,7 +160,7 @@ This is by far my favorite level on HackThis!! to date. The potential for this s
 
 I dismissed it as too bizarre though and wasted a lot of time looking down other avenues. The fact that the answer to a puzzle 16 levels deep is given to everyone at the time of user registration without their knowledge is VERY cool.
 
-# Basic+ Level 7
+## Basic+ Level 7
 
 > We are running a suspicious looking service. Maybe it will give you the answer. 
 

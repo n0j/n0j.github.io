@@ -6,7 +6,7 @@ date:   2016-05-08
 
 [HackThis!! Intermediate](https://www.hackthis.co.uk/levels/Intermediate)
 
-# Intermediate Level 1
+## Intermediate Level 1
 
 ![intermediate01-01](/img/hackthis-intermediate/intermediate01-01.png)
 
@@ -16,7 +16,7 @@ Do what the man says! We'll assume the parameter name to be 'password.'
 
 Donezor.
 
-# Intermediate Level 2
+## Intermediate Level 2
 
 ![intermediate02-01](/img/hackthis-intermediate/intermediate02-01.png)
 
@@ -42,7 +42,7 @@ Content-Type: application/x-www-form-urlencoded
 
 Lesson learned.
 
-# Intermediate Level 3
+## Intermediate Level 3
 
 ![intermediate03-01](/img/hackthis-intermediate/intermediate03-01.png)
 
@@ -58,7 +58,7 @@ Copy the request to the Burp Repeater tab, modify the cookie value to 'true,' an
 
 ![intermediate03-04](/img/hackthis-intermediate/intermediate03-04.png)
 
-# Intermediate Level 4
+## Intermediate Level 4
 
 ![intermediate04-01](/img/hackthis-intermediate/intermediate04-01.png)
 
@@ -70,7 +70,7 @@ Being the first XSS challenge, I imagine it is one of the classics. My favorite 
 
 Success.
 
-# Intermediate Level 5
+## Intermediate Level 5
 
 ![intermediate05-01](/img/hackthis-intermediate/intermediate05-01.png)
 

@@ -12,7 +12,7 @@ Behold, Juice Shop!
 
 ![juice shop](/img/owasp-juice-shop-v7.3.0/juice000.png)
 
-# Discovery, Enumeration
+## Discovery, Enumeration
 
 First, a click-through of the site to familiarize ourselves with its intended functionality. There's a lot going on here - user accounts with a forgotten password function, item listings with reviews, a check-out cart that generates pdf files, coupon codes, a contact form, search boxes, and on and on.
 
@@ -26,7 +26,7 @@ While running `dirb` a banner appeared in the browser, congratulating me on solv
 
 ![error challenge](/img/owasp-juice-shop-v7.3.0/juice001.png)
 
-# Scoreboard
+## Scoreboard
 
 Here I have to admit to a small bit of cheating. I have not worked on Juice Shop before but I have seen it and know there's a hidden scoreboard. You can find it by looking at the source of the main page. This is an act I definitely would have taken anyway, so we'll forgive the foreknowledge. ;)
 
@@ -50,7 +50,7 @@ Visiting `/#/score-board`, boom...
 
 From this point on I'll name each section based on the challenge name from the scoreboard and just go down the list in order, assuming that's possible.
 
-# Admin Section
+## Admin Section
 
 > Access the administration section of the store.
 
@@ -58,7 +58,7 @@ Trying the most obvious thing first and guessing `/#/admin` didn't work but...
 
 ![admin section](/img/owasp-juice-shop-v7.3.0/juice004.png)
 
-# Confidential Document
+## Confidential Document
 
 > Access a confidential document.
 
@@ -68,9 +68,9 @@ Another gut call, I bet there's something in that `/ftp` directory that shouldn'
 
 `wget` can download all the links on the page with following where `-r` is for recursive, `-l 1` limits recursion to one level (not necessary here but good habit), and `-np` is for no-parent (i.e. don't download the `ftp` page itself).
 
-```{% raw %}
-# wget -r -l 1 -np http://juice.shop:3000/ftp/
-{% endraw %}```
+```
+## wget -r -l 1 -np http://juice.shop:3000/ftp/
+```
 
 The output shows a few unexpected 403 errors. Looking into one manually,
 
@@ -78,13 +78,13 @@ The output shows a few unexpected 403 errors. Looking into one manually,
 
 Take note of the file type restriction for later. For now, it appears accessing what we could has tripped 'Confidential Document' on the scoreboard.
 
-# Error Handling
+## Error Handling
 
 > Provoke an error that is not very gracefully handled.
 
 Done during `dirb` run earlier.
 
-# Redirects Tier 1
+## Redirects Tier 1
 
 > Let us redirect you to a donation site that went out of business.
 
@@ -108,7 +108,7 @@ Click it, bingo.
 
 ![redirect 1](/img/owasp-juice-shop-v7.3.0/juice009.png)
 
-# XSS Tier 0
+## XSS Tier 0
 
 > Perform a reflected XSS attack with \<script\>alert(\"XSS\")\</script\>.
 
@@ -118,9 +118,9 @@ First an aside, I just XSS'd myself running Jekyll locally by copying that descr
 
 For a reflected XSS attack we're looking for something that echoes user input back into the page. Clicking around, the 'Track Orders' page appears to do this.
 
-```{% raw %}
+```
 http://juice.shop:3000/#/track-result?id=foo
-{% endraw %}```
+```
 
 ![foo](/img/owasp-juice-shop-v7.3.0/juice011.png)
 
@@ -128,7 +128,7 @@ Looks ripe for XSS, barring some kind of protection against it.
 
 ![xss](/img/owasp-juice-shop-v7.3.0/juice012.png)
 
-## Angular Note
+### Angular Note
 
 A quick note on this, since Angular by default performs anti-XSS measures and we would expect some kind of protection normally here.
 
@@ -146,7 +146,7 @@ n.results.orderId = t.trustAsHtml(e.data[0].orderId),
 
 where `trustAsHtml` is [a method](https://docs.angularjs.org/api/ng/service/$sce) which essentially instructs Angular to skip security checks like anti-XSS protections.
 
-## Why Reflected XSS?
+### Why Reflected XSS?
 
 I believe this is labeled a reflected XSS because the value from the user follows the normal flow of being submitted by the user, sent to the server in a request, and bounced back to the user in the response.
 
@@ -176,7 +176,7 @@ Connection: close
 
 Personally, I am a little leery of labeling this reflected as opposed to DOM because the user input sent to the server isn't the normal form POST where a new page is loaded that includes the reflected input. Here there's some JS firing in the background to an API and results are built into the page (DOM) absent a request for the whole page. So, a little confused on that point and the intentions of the OWASP people in making the distinction between this and the following XSS challenge.
 
-# XSS Tier 1
+## XSS Tier 1
 
 > Perform a DOM XSS attack with \<script\>alert(\"XSS\")\</script\>.
 
@@ -184,7 +184,7 @@ Much the same for this one, except in the search bar.
 
 ![xss](/img/owasp-juice-shop-v7.3.0/juice013.png)
 
-## Why DOM XSS?
+### Why DOM XSS?
 
 I suspect this is labeled DOM XSS by the creators as opposed to reflected XSS due to the fact that the user input value is never returned back to the user by the server. A search causes an API request like this,
 
@@ -211,7 +211,7 @@ Connection: close
 
 It must be that user input value is loaded into the page via a live modification of the DOM and not 'reflected' per se in a response from the server. As previously mentioned, I don't have great confidence in this distinction - particularly given the form of their reflected XSS example.
 
-# Zero Stars
+## Zero Stars
 
 > Give a devastating zero-star feedback to the store.
 

@@ -8,7 +8,7 @@ A nice warm-up series to get a feel for the site. Should be completed in under a
 
 [HackThis!! Main](https://www.hackthis.co.uk/levels/Main)
 
-# Main Level 1
+## Main Level 1
 
 ![main01-01](/img/hackthis-main/main01-01.png)
 
@@ -27,7 +27,7 @@ In the head...
 <script src="https://d3t63m1rxnixd2.cloudfront.net/files/js/modernizr-2.6.2.min.js"></script>
 ```
 
-# Main Level 2
+## Main Level 2
 
 ![main02-01](/img/hackthis-main/main02-01.png)
 
@@ -49,7 +49,7 @@ Can be seen highlighted.
 
 ![main02-02](/img/hackthis-main/main02-02.png)
 
-# Main Level 3
+## Main Level 3
 
 > Using JavaScript as the only method to secure your site is a bad idea, but this has obviously been over looked while coding this page.
 
@@ -59,7 +59,7 @@ Yea I'd say that's a bad idea.
 <script type='text/javascript'> $(function(){ $('.level-form').submit(function(e){ if(document.getElementById('user').value == 'heaven' && document.getElementById('pass').value == 'hell') { } else { e.preventDefault(); alert('Incorrect login') } })})</script>
 ```
 
-# Main Level 4
+## Main Level 4
 
 > Sometimes extra hidden fields are added to the form which contains extra information for the login script. Again this is very easy for anyone to gain access to as it is clearly shown in the source code.
 >
@@ -84,7 +84,7 @@ Visit https://www.hackthis.co.uk/levels/extras/ssap.xml
 </user>
 ```
 
-# Main Level 5
+## Main Level 5
 
 > Slightly more complicated JavaScript this time, but just as insecure.
 >
@@ -110,7 +110,7 @@ D'oh.
 </script>
 ```
 
-# Main Level 6
+## Main Level 6
 
 ![main06-01](/img/hackthis-main/main06-01.png)
 
@@ -128,7 +128,7 @@ Cool.
 
 ![main06-04](/img/hackthis-main/main06-04.png)
 
-# Main Level 7
+## Main Level 7
 
 > The password is again stored in a txt file. This time however it is not as straight forward as viewing the source.
 
@@ -163,7 +163,7 @@ Yup.
 
 ![main07-01](/img/hackthis-main/main07-01.png)
 
-# Main Level 8
+## Main Level 8
 
 > The coder has made the same mistake as level 4 but this time at least he has tried to protect the password. The password has been encrypted, convert the binary into something that is easier for humans to read (base 16).
 >
@@ -196,7 +196,7 @@ FEED
 
 Well then, boob feed. Am I being fed the boobs or are we talking about some kind of boob sustenance?
 
-# Main Level 9
+## Main Level 9
 
 > The developer has now added a feature that allows him to get a password reminder. Can you exploit it to send you the login details instead?
 
@@ -219,7 +219,7 @@ Yup.
 
 ![main09-03](/img/hackthis-main/main09-03.png)
 
-# Main Level 10
+## Main Level 10
 
 > Encrypted passwords can be quite difficult to decode, but when you use a common method there is usually a way to get around it. Especially when the encrypted information are simple common words.
 
