@@ -528,7 +528,7 @@ We can do this by guessing each character from front to back. We know the flag s
 
 Some quick and dirty Python I used when the challenge was still hosted online for the AppSec USA CTF (URL removed),
 
-```
+```{% raw %}
 import socket, urllib
 
 HOST = "<url removed>"
@@ -568,7 +568,7 @@ for i in xrange(64):
 		break
 
 print "DONE"
-print p
+print p{% endraw %}
 ```
 
 Here it is running, fun to watch it go once things are working.
