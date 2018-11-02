@@ -68,9 +68,9 @@ Another gut call, I bet there's something in that `/ftp` directory that shouldn'
 
 `wget` can download all the links on the page with following where `-r` is for recursive, `-l 1` limits recursion to one level (not necessary here but good habit), and `-np` is for no-parent (i.e. don't download the `ftp` page itself).
 
-```
+```{% raw %}
 # wget -r -l 1 -np http://juice.shop:3000/ftp/
-```
+{% endraw %}```
 
 The output shows a few unexpected 403 errors. Looking into one manually,
 
@@ -118,9 +118,9 @@ First an aside, I just XSS'd myself running Jekyll locally by copying that descr
 
 For a reflected XSS attack we're looking for something that echoes user input back into the page. Clicking around, the 'Track Orders' page appears to do this.
 
-```
+```{% raw %}
 http://juice.shop:3000/#/track-result?id=foo
-```
+{% endraw %}```
 
 ![foo](/img/owasp-juice-shop-v7.3.0/juice011.png)
 

